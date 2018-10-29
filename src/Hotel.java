@@ -2,6 +2,8 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetEncoder;
 
 public class Hotel {
 	private String name;
@@ -10,10 +12,13 @@ public class Hotel {
 	private String contact;
 	private String phone;
 	private String uri;
+	static CharsetEncoder asciiEncoder = 
+		      Charset.forName("US-ASCII").newEncoder();
 
 	public Hotel(HashMap<String, String> map) {
 		if (map.containsKey("name")) {
-			this.name = (String) map.get("name");
+			String name = (String) map.get("name");
+			this.name = isValidName(name) ? name : "NA";
 		}
 		if (map.containsKey("address")) {
 			String address = (String) map.get("address");
@@ -35,6 +40,10 @@ public class Hotel {
 			String uri = (String) map.get("uri");
 			this.uri = isValidUri(uri) ? uri : "NA";
 		}
+	}
+	
+	private boolean isValidName(String name) {
+		return asciiEncoder.canEncode(name);
 	}
 
 	private boolean isValidRating(String stars) {

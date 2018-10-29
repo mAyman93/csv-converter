@@ -142,8 +142,15 @@ public class FileConverter {
 	public static void main(String[] args) {
 		String directory = "";
 		FileConverter fc = new FileConverter(directory + "hotels.csv");
-		fc.convertToJSON();
-		fc.convertToXML();
-		System.out.println("Done");
+		if (fc.convertToJSON()) {
+			System.out.println("JSON file created successfully!");
+		} else {
+			System.out.println("Error while parsing!");
+		}
+		if (fc.convertToXML()) {
+			System.out.println("XML file created successfully!");
+		} else {
+			System.out.println("Error while parsing!");
+		}
 	}
 }
